@@ -30,12 +30,13 @@ run the tests on FF, change the browser value to "firefox".
 
 ### Execution Steps
 
-- Clone the repository or download as a zip file
+- Clone the repository or download project as a zip file
+- Download all the required libraries
 - Run the tests using RunTest class
 
 OR
 
-Through command line, use maven command
+Through command line, use maven commands e.g.
 
 ```
 mvn test
