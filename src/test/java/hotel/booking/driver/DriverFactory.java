@@ -31,26 +31,31 @@ public class DriverFactory {
     }
 
     public static WebDriver getFireFoxDriver() {
-
         WebDriver firefoxDriver = new FirefoxDriver();
         // maximize window
         firefoxDriver.manage().window().maximize();
         return firefoxDriver;
-
-
     }
 
+
     public static WebDriver getChromeDriver() throws IOException {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/testDrivers/chromedriver");
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("mac")) {
+            System.setProperty("webdriver.chrome.driver", "src/test/resources/chromeDrivers/chromedriver");
+        } else {
+            System.setProperty("webdriver.chrome.driver", "src/test/resources/chromeDrivers/chromedriver.exe");
+        }
+
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type");
-        capabilities.setCapability("chrome.binary", "src/test/resources/testDrivers/chromedriver");
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
         WebDriver chromeDriver = new ChromeDriver(capabilities);
+        chromeDriver.manage().window().maximize();
         return chromeDriver;
     }
-
 }
+
 
