@@ -1,5 +1,6 @@
 package hotel.booking.driver;
 
+import io.github.bonigarcia.wdm.ChromeDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,17 +16,16 @@ public class DriverFactory {
 
     static WebDriver createInstance(String browserName) throws IOException {
 
-        if (browserName.toLowerCase().contains("firefox")) {
-            driver = getFireFoxDriver();
-            return driver;
-        }
-        if (browserName.toLowerCase().contains("chrome")) {
-            driver = getChromeDriver();
-            return driver;
-        }
-        if (browserName.toLowerCase().contains("local")) {
-            driver = new FirefoxDriver();
-            return driver;
+        switch (browserName) {
+            case "firefox":
+                driver = getFireFoxDriver();
+                break;
+            case "chrome":
+                driver = getChromeDriver();
+                break;
+            default:
+                driver = getChromeDriver();
+                break;
         }
         return driver;
     }
@@ -39,19 +39,13 @@ public class DriverFactory {
 
 
     public static WebDriver getChromeDriver() throws IOException {
-        String os = System.getProperty("os.name").toLowerCase();
-
-        if (os.contains("mac")) {
-            System.setProperty("webdriver.chrome.driver", "src/test/resources/chromeDrivers/chromedriver");
-        } else {
-            System.setProperty("webdriver.chrome.driver", "src/test/resources/chromeDrivers/chromedriver.exe");
-        }
 
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("test-type");
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 
+        ChromeDriverManager.getInstance().setup();
         WebDriver chromeDriver = new ChromeDriver(capabilities);
         chromeDriver.manage().window().maximize();
         return chromeDriver;

@@ -9,25 +9,27 @@ import cucumber.api.java.en.When;
 import hotel.booking.driver.DriverManager;
 import hotel.booking.pageObjects.BookingPage;
 import org.openqa.selenium.WebDriver;
-
 import java.io.IOException;
 import java.util.Map;
+
+import static hotel.booking.driver.DriverManager.destroyDriver;
+import static hotel.booking.driver.DriverManager.getDriver;
 
 public class HotelBookingStepDef {
 
     private static BookingPage bookingPage;
-    private WebDriver driver;
+    private static WebDriver driver;
 
 
     @Before
     public void beforeScenario() throws IOException {
-        driver = new DriverManager().getDriver();
+        driver = getDriver();
         System.out.println("Set-up before the scenario");
     }
 
     @After
     public void afterScenario() {
-        DriverManager.destroyDriver(driver);
+        destroyDriver(driver);
         System.out.println("Clean-up after the scenario");
     }
 
@@ -58,6 +60,7 @@ public class HotelBookingStepDef {
     @Then("^new booking should be displayed on the booking page$")
     public void booking_should_be_created() throws Throwable {
         bookingPage.assertCreateBooking();
+        //assertTrue(bookingPage.isBookingCreated());
     }
 
 }

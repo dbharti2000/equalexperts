@@ -2,6 +2,7 @@ package hotel.booking.driver;
 
 import hotel.booking.utils.PropertyReaders;
 import org.openqa.selenium.WebDriver;
+
 import java.io.IOException;
 
 public class DriverManager {
@@ -16,4 +17,5 @@ public class DriverManager {
         driver = null;
     }
 }
+
 

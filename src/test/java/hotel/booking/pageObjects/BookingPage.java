@@ -5,7 +5,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
+
 import java.util.Map;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -24,7 +26,7 @@ public class BookingPage extends BasePage {
         WebElement firstBookingID = waitForElement(driver, By.xpath("//div[@id='bookings']/div[2]"));
         assertNotNull("No booking found", firstBookingID);
 
-        return firstBookingID.getAttribute("id").toString();
+        return firstBookingID.getAttribute("id");
     }
 
     public void deleteFirstBooking() throws InterruptedException {
@@ -43,6 +45,7 @@ public class BookingPage extends BasePage {
     }
 
     private int findNumberOfExistingBookings() {
+        waitForElement(driver, By.xpath("//input[@value = 'Delete']"));
         return driver.findElements(By.xpath("//div[@id='bookings']/div")).size();
     }
 
@@ -76,4 +79,13 @@ public class BookingPage extends BasePage {
         assertTrue("Booking creation failed", findNumberOfExistingBookings() - bookingCountBeforeCreatingANewBooking >= 1);
         System.out.println("Booking created sucessfully");
     }
+
+    public boolean isBookingCreated() {
+        driver.navigate().refresh();
+        waitForElement(driver, By.xpath("//input[@value = 'Delete']"));
+        System.out.println("====>before" + bookingCountBeforeCreatingANewBooking);
+        System.out.println("====>after" + findNumberOfExistingBookings());
+        return (findNumberOfExistingBookings() - bookingCountBeforeCreatingANewBooking >= 1) ? true : false;
+    }
+
 }
